@@ -58,3 +58,24 @@ for (k1, v1), (k2, v2) in zip(d1.items(), d2.items()):
   print("In basket", k1, ", there are ", v2, " ", v1, " ", k2, sep='')
 
 
+#unzipping
+pairs = [(1, 'a'), (2, 'b'), (3, 'c'), (4, 'd')]
+
+numbers, letters = zip(*pairs)
+
+print(numbers)
+print(letters)
+
+
+#sorting in parallel
+
+letters2 = ['b', 'a', 'd', 'c']
+numbers2 = [2, 4, 1, 3]
+
+data1 = list(zip(letters1, numbers1))
+data2 = list(zip(numbers1, letters1))
+
+data1.sort()
+data2.sort()
+
+print("sorted by letter:", data1)
