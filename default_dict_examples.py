@@ -233,3 +233,56 @@ for product, income in incomes:
 
 for product, income in dd.items():
     print(f'Total income for {product}: ${income:,.2f}')
+
+
+"""
+Passing Arguments to .default_factory
+.default_factory must be set to a callable object that takes no argument
+and returns a value. This value will be used to supply a default value for
+any missing key in the dictionary. Even when .default_factory shouldn’t
+take arguments, Python offers some tricks that you can use if you need to
+supply arguments to it. In this section, you’ll cover two Python tools that
+can serve this purpose:
+
+    > lambda
+    > functools.partial()
+
+With these two tools, you can add extra flexibility to the Python defaultdict
+type. Ex: you can initialize a defaultdict with a callable that takes an arg-
+ument and, after some processing, you can update the callable with a new arg-
+ument to change the default value for the keys you’ll create from this point on.
+
+Using lambda
+A flexible way to pass arguments to .default_factory is to use lambda. Suppose
+you want to create a function to generate default values in a defaultdict. The
+function does some processing and returns a value, but you need to pass an arg-
+ument for the function to work correctly. Here’s an example: """
+def factory(arg):
+  # Do some processing here
+  result = arg.upper()
+  return result
+
+def_dict = defaultdict(lambda: factory('default value'))
+def_dict['missing']
+
+
+"""
+Using functools.partial()
+functools.partial(func, *args, **keywords) is a function that returns a partial
+object. When you call this object with the positional arguments (args) and key-
+word arguments (keywords), it behaves similar to when you call
+func(*args, **keywords). You can take advantage of this behavior of partial()
+and use it to pass arguments to .default_factory in a Python defaultdict.
+Here’s an example: """
+def factory(arg):
+  # Do some processing here
+  result = arg.upper()
+  return result
+
+from functools import partial
+
+def_dict = defaultdict(partial(factory, 'default value'))
+def_dict['missing']
+
+def_dict.default_factory = partial(factory, 'another default value')
+def_dict['another_missing']
